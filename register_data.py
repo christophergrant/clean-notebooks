@@ -1,5 +1,5 @@
 # Databricks notebook source
-bucket = "gs://snap-local-test"
+bucket = ""
 destination = f"{bucket}/control/events"
 
 # COMMAND ----------
