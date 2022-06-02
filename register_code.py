@@ -4,7 +4,7 @@ destination = f"{bucket}/control/events"
 
 # COMMAND ----------
 
-from cleanroom.notebooks import code
+from backend import code
 code.display_widgets(dbutils)
 
 # COMMAND ----------

@@ -4,7 +4,7 @@ destination = f"{bucket}/control/events"
 
 # COMMAND ----------
 
-from cleanroom.notebooks import approvals
+from backend import approvals
 approvals.display_widgets(dbutils)
 data = approvals.get_widget_values(dbutils)
 
@@ -16,4 +16,4 @@ approvals.form_event_and_send_to_control(enriched_data, destination, dbutils, sp
 
 # COMMAND ----------
 
-
+dbutils.widgets.
