@@ -12,7 +12,7 @@ participant = dbutils.widgets.get("participant_name")
 
 import re
 assert bool(re.match(r"^gs:\/\/.+", gcs_bucket)), "bucket must be from Google storage, fully qualified like gs://<bucket>"
-dirs_to_create = ["control", "output", "input", "cluster-logs"]
+dirs_to_create = ["control", "output", "input", "cluster-logs", "artifacts"]
 for d in dirs_to_create:
   print(f"Creation status for: {gcs_bucket}/{d}", dbutils.fs.mkdirs(f"{gcs_bucket}/{d}"))
 
@@ -24,4 +24,4 @@ spark.sql(f"CREATE DATABASE IF NOT EXISTS {participant} LOCATION {gcs_bucket}/in
 
 # COMMAND ----------
 
-
+# TODO create event table
