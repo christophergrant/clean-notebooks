@@ -5,7 +5,7 @@ from requests.exceptions import HTTPError
 import json
 from hashlib import sha256
 
-import common
+from backend import common
 
 # display_widgets
 def display_widgets(dbutils):

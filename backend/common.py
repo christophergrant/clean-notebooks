@@ -3,7 +3,7 @@ import json
 from uuid import uuid4
 from datetime import datetime
 import pandas as pd
-import cleanroom_dbutils as dbutils
+from backend import cleanroom_dbutils as dbutils
 
 dbutils = dbutils.get_dbutils()
 
