@@ -1,5 +1,6 @@
 # Databricks notebook source
-bucket = ""
+bucket = "gs://snap-local-test"
+assert bucket and bucket != ""
 destination = f"{bucket}/control/events"
 
 # COMMAND ----------
