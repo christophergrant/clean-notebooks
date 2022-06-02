@@ -4,7 +4,7 @@ destination = f"{bucket}/control/events"
 
 # COMMAND ----------
 
-from cleanroom.notebooks import jobs
+from backend import jobs
 jobs.display_widgets(dbutils)
 data = jobs.get_widget_values(dbutils)
 
