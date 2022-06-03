@@ -10,7 +10,7 @@ participant = dbutils.widgets.get("participant_name")
 
 # COMMAND ----------
 
-control_tables = ["runs", "approval_status", "code", "data", "jobs", "code", "status"]
+control_tables = ["runs", "approval_status", "code", "data", "jobs", "status"]
 for table in control_tables:
   spark.sql(f"CREATE TABLE IF NOT EXISTS control.{table} USING DELTA LOCATION '{gcs_bucket}/control/{table}'")
 
