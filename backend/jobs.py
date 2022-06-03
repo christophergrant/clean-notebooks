@@ -16,7 +16,7 @@ def get_widget_values(dbutils):
     widget_names = ["job_name", "code_name", "parameters", "compute"]
     return common.get_widget_values(widget_names, dbutils)
 
-def validate_widget_values(d, dbutils, spark):
+def validate_widget_values(d):
     assert d["job_name"] not in ("", None), "job_name cannot be empty"
     try:
         json.loads(d["parameters"])
