@@ -1,6 +1,6 @@
 # Databricks notebook source
 from backend import jobs
-jobs.display_widgets(dbutils)
+jobs.display_widgets(dbutils, spark)
 data = jobs.get_widget_values(dbutils)
 
 # COMMAND ----------
