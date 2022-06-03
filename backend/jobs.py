@@ -37,6 +37,7 @@ def display_widgets(spark, dbutils):
     dbutils.widgets.removeAll()
     dbutils.widgets.text(name="00_job_name", defaultValue="")
 
+
     code_choices = get_approved_codes(spark, dbutils)
 
     dbutils.widgets.dropdown(name="01_code_name", defaultValue=code_choices[0], choices=code_choices)
