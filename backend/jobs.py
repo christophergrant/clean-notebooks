@@ -7,7 +7,7 @@ def display_widgets(dbutils, spark):
     dbutils.widgets.text(name="00_job_name", defaultValue="")
     field_name = "name"
     code_choices = [x.asDict(field_name) for x in spark.sql(f"select {field_name} from control.code").collect()]
-    dbutils.widgets.dropdown(name="01_code_name", defaultValue="INSERT", choices=code_choices)
+    dbutils.widgets.dropdown(name="01_code_name", defaultValue=code_choices[0], choices=code_choices)
     dbutils.widgets.text(name="02_parameters", defaultValue="{}")
     dbutils.widgets.dropdown(name="03_compute", defaultValue="Small",
                              choices=["2X-Small", "X-Small", "Small", "Medium", "Large", "X-Large", "2X-Large", "3X-Large", "4X-Large"])
