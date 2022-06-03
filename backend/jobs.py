@@ -6,7 +6,7 @@ def display_widgets(dbutils, spark):
     dbutils.widgets.removeAll()
     dbutils.widgets.text(name="00_job_name", defaultValue="")
     field_name = "name"
-    code_choices = [x.asDict(field_name) for x in spark.sql(f"select {field_name} from control.code").collect()]
+    code_choices = [x.asDict()[field_name] for x in spark.sql(f"select {field_name} from control.code").collect()]
     dbutils.widgets.dropdown(name="01_code_name", defaultValue=code_choices[0], choices=code_choices)
     dbutils.widgets.text(name="02_parameters", defaultValue="{}")
     dbutils.widgets.dropdown(name="03_compute", defaultValue="Small",
@@ -22,6 +22,7 @@ def validate_widget_values(d):
         json.loads(d["parameters"])
     except:
         raise AssertionError("'parameters' JSON must be valid")
+    return d
 
 def enrich_widget_values(d):
     return d
