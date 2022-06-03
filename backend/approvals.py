@@ -17,5 +17,5 @@ def validate_widget_values(d, dbutils, spark):
 def enrich_widget_values(d, spark):
     return d
 
-def form_event_and_send_to_control(d, destination, dbutils, spark):
-    return common.form_event_and_send_to_control(d, "DATA", destination, dbutils, spark)
+def form_event_and_send_to_control(d, dbutils, spark):
+    return common.form_event_and_send_to_control(d, "APPROVAL", dbutils, spark)

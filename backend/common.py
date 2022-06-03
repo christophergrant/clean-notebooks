@@ -17,17 +17,17 @@ def get_widget_values(widget_names, dbutils) -> dict:
     return d
 
 
-def form_event_and_send_to_control(d, event_type, destination, dbutils, spark):
+def form_event_and_send_to_control(d, event_type, dbutils, spark):
     j = json.dumps(d)
     row = {"event_type": event_type,
            "uuid": str(uuid4()),
            "payload": j,
-           "ts": datetime.now().isoformat(),
+           "timestamp": datetime.now().isoformat(),
            "user": dbutils.notebook.entry_point.getDbutils().notebook().getContext().tags().apply('user'),
            "notebook": dbutils.notebook.entry_point.getDbutils().notebook().getContext().notebookPath().get(),
            "hostname": dbutils.notebook.entry_point.getDbutils().notebook().getContext().tags().apply(
                'browserHostName'),
            "api_version": "1"
            }
-    spark.createDataFrame(pd.DataFrame.from_dict([row])).write.format("delta").mode("append").save(destination)
+    spark.createDataFrame([row]).write.format("delta").mode("append").saveAsTable("control.events")
     return True

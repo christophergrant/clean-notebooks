@@ -27,4 +27,4 @@ def enrich_widget_values(d, spark):
 
 
 def form_event_and_send_to_control(d, destination, dbutils, spark):
-    return common.form_event_and_send_to_control(d, "DATA", destination, dbutils, spark)
+    return common.form_event_and_send_to_control(d, "DATA", dbutils, spark)

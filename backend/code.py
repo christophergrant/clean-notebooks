@@ -59,6 +59,6 @@ def enrich_widget_values(d):
     d["notebook_language"] = get_notebook_language(d["path_to_notebook"])
     return d
 
-def form_event_and_send_to_control(d, destination, dbutils, spark):
-    return common.form_event_and_send_to_control(d, "CODE", destination, dbutils, spark)
+def form_event_and_send_to_control(d, dbutils, spark):
+    return common.form_event_and_send_to_control(d, "CODE", dbutils, spark)
 
