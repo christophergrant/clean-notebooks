@@ -16,3 +16,7 @@ dbutils.widgets.removeAll()
 # COMMAND ----------
 
 approvals.display_widgets(spark, dbutils)
+
+# COMMAND ----------
+
+
