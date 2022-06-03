@@ -25,9 +25,5 @@ spark.sql(f"CREATE DATABASE IF NOT EXISTS control LOCATION '{gcs_bucket}/control
 
 # COMMAND ----------
 
-schema = "`event_type` STRING,`uuid` STRING,`payload` STRING,`ts` STRING,`user` STRING,`notebook` STRING,`hostname` STRING,`api_version` STRING"
+schema = "`event_type` STRING,`uuid` STRING,`payload` STRING,`timestamp` STRING,`user` STRING,`notebook` STRING,`hostname` STRING,`api_version` STRING"
 spark.createDataFrame([], schema).write.format("delta").saveAsTable("control.events")
-
-# COMMAND ----------
-
-
