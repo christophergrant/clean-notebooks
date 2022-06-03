@@ -1,14 +1,11 @@
 # Databricks notebook source
 from backend import jobs
-jobs.display_widgets(dbutils, spark)
-data = jobs.get_widget_values(dbutils)
+jobs.process(dbutils, spark)
 
 # COMMAND ----------
 
-validated_data = jobs.validate_widget_values(data)
-enriched_data = jobs.enrich_widget_values(validated_data)
-jobs.form_event_and_send_to_control(enriched_data, dbutils, spark) and displayHTML("<h1>Request sent.</h1>")
+dbutils.widgets.removeAll()
 
 # COMMAND ----------
 
-
+jobs.display_widgets(spark, dbutils)
