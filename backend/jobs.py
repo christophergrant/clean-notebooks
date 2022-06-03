@@ -36,7 +36,9 @@ def get_approved_codes(spark, dbutils):
 def display_widgets(spark, dbutils):
     dbutils.widgets.removeAll()
     dbutils.widgets.text(name="00_job_name", defaultValue="")
+
     code_choices = get_approved_codes(spark, dbutils)
+
     dbutils.widgets.dropdown(name="01_code_name", defaultValue=code_choices[0], choices=code_choices)
     dbutils.widgets.text(name="02_parameters", defaultValue="{}")
     dbutils.widgets.dropdown(name="03_compute", defaultValue="Small",
@@ -60,6 +62,7 @@ def validate_widget_values(d, dbutils, spark):
                 <div style="color:red;font-size:28pt">Please enter a job name without using special characters {special_characters}</div>
             """)
         raise Exception(f"Job name should not have any of theses special characters {special_characters}")
+
     try:
         json.loads(d["parameters"])
     except:
