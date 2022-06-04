@@ -44,7 +44,7 @@ def display_widgets(spark, dbutils):
     dbutils.widgets.text(name="02_parameters", defaultValue="{}")
     dbutils.widgets.dropdown(name="03_compute", defaultValue="Small",
                              choices=["2X-Small", "X-Small", "Small", "Medium", "Large", "X-Large", "2X-Large", "3X-Large", "4X-Large"])
-    dbutils.widgets.dropdown(name="04_schedule", defaultValue="ad-hoc", choices=["ad-hoc", "hourly", "daily", "weekly"])
+    dbutils.widgets.dropdown(name="04_schedule", defaultValue="ad-hoc", choices=["ad-hoc"]) # , "hourly", "daily", "weekly"])
 
 def get_widget_values(dbutils):
     widget_names = ["job_name", "code_name", "parameters", "compute", "schedule"]
