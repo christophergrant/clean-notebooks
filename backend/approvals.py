@@ -57,14 +57,15 @@ def send_to_control(code_id, d, event_type, dbutils, spark):
     row = {"event_type": event_type,
            "uuid": code_id,
            "payload": j,
-           "timestamp": datetime.now().isoformat(),
+           "timestamp": datetime.now(),
            "user": dbutils.notebook.entry_point.getDbutils().notebook().getContext().tags().apply('user'),
            "notebook": dbutils.notebook.entry_point.getDbutils().notebook().getContext().notebookPath().get(),
            "hostname": dbutils.notebook.entry_point.getDbutils().notebook().getContext().tags().apply(
                'browserHostName'),
            "api_version": "1"
            }
-    spark.createDataFrame([row]).write.format("delta").mode("append").saveAsTable("control.events")
+    schema = DeltaTable.forName(spark, "control.events").toDF().schema
+    spark.createDataFrame([row], schema).write.format("delta").mode("append").saveAsTable("control.events")
     return True
 
 def form_event_and_send_to_control(d, dbutils, spark):
