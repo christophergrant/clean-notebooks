@@ -3,9 +3,9 @@ import json
 
 schedule_to_value = {
     "ad-hoc": "ad-hoc",
-    "daily": "0 0 6 * * ?", # 6AM every day
-    "hourly": "0 0 * * * ?",
-    "weekly": "0 0 6 * * 1" # 6AM every Sunday
+    "daily": "0 0 6 * * ? *", # 6AM every day
+    "hourly": "0 0 * * * ? *",
+    "weekly": "0 0 6 * * 1 *" # 6AM every Sunday
 }
 
 def get_approved_codes(spark, dbutils):
