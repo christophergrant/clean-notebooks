@@ -2,6 +2,7 @@ from backend import common
 import json
 from datetime import datetime
 import time
+from delta.tables import *
 
 def get_open_code_reviews(spark, dbutils):
     choices = []
