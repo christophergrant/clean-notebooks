@@ -4,7 +4,7 @@ jobs.display_widgets(spark, dbutils)
 
 # COMMAND ----------
 
-data = get_widget_values(dbutils)
+data = jobs.get_widget_values(dbutils)
 
 # COMMAND ----------
 
