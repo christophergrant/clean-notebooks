@@ -1,5 +1,12 @@
 # Databricks notebook source
+dbutils.widgets.removeAll()
+
+# COMMAND ----------
+
 from backend import approvals
+approvals.display_widgets(spark, dbutils)
+
+# COMMAND ----------
 
 try:
     data = approvals.get_widget_values(dbutils)
@@ -11,11 +18,11 @@ except Exception as e:
 
 # COMMAND ----------
 
-dbutils.widgets.removeAll()
+
 
 # COMMAND ----------
 
-approvals.display_widgets(spark, dbutils)
+
 
 # COMMAND ----------
 
