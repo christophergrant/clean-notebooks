@@ -12,7 +12,6 @@ except Exception as e:
 
 # COMMAND ----------
 
-from backend import approvals
 try:
     if (data != None):
         validated_data = approvals.validate_widget_values(data, dbutils, spark)
