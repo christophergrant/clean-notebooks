@@ -82,7 +82,6 @@ def form_event_and_send_to_control(d, dbutils, spark):
 
 def process(data, spark, dbutils):
     try:
-        #data = get_widget_values(dbutils)
         validated_data = validate_widget_values(data, dbutils, spark)
         enriched_data = enrich_widget_values(validated_data, spark)
         form_event_and_send_to_control(enriched_data, dbutils, spark) and dbutils.displayHTML("<h1>Request sent.</h1>")    
