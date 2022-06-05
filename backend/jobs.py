@@ -80,7 +80,7 @@ def enrich_widget_values(d, spark):
 def form_event_and_send_to_control(d, dbutils, spark):
     return common.form_event_and_send_to_control(d, "JOB", dbutils, spark)
 
-def process(dbutils, spark):
+def process(spark, dbutils):
     try:
         data = get_widget_values(dbutils)
         validated_data = validate_widget_values(data, dbutils, spark)
