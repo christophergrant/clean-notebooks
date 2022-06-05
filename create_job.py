@@ -1,11 +1,11 @@
 # Databricks notebook source
 from backend import jobs
-jobs.process(dbutils, spark)
-
-# COMMAND ----------
-
-dbutils.widgets.removeAll()
-
-# COMMAND ----------
-
 jobs.display_widgets(spark, dbutils)
+
+# COMMAND ----------
+
+data = jobs.get_widget_values(dbutils)
+
+# COMMAND ----------
+
+jobs.process(data, spark, dbutils)
