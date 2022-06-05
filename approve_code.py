@@ -3,11 +3,6 @@ dbutils.widgets.removeAll()
 
 # COMMAND ----------
 
-from backend import approvals
-approvals.display_widgets(spark, dbutils)
-
-# COMMAND ----------
-
 try:
     data = approvals.get_widget_values(dbutils)
     validated_data = approvals.validate_widget_values(data, dbutils, spark)
@@ -18,12 +13,10 @@ except Exception as e:
 
 # COMMAND ----------
 
-
-
-# COMMAND ----------
-
-
+from backend import approvals
+df = approvals.display_widgets(spark, dbutils)
 
 # COMMAND ----------
 
-
+# DBTITLE 1,Review pending request details
+display(df)

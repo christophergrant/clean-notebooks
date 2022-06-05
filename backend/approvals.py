@@ -30,18 +30,19 @@ def get_open_code_reviews(spark, dbutils):
         dbutils.displayHTML("""
                 <div style="color:red;font-size:28pt">There are no pending code requests. Please check back later.</div>
             """)
-        return [""]
+        return ([""], df)
     else:
         choices = [x.name for x in pending]
-        return choices   
+        return (choices, df)
     
 
 # display_widgets
 def display_widgets(spark, dbutils):
     dbutils.widgets.dropdown(name="00_action", defaultValue="REVIEWING", choices=['REVIEWING', 'APPROVE', 'REJECT'])
-    code_choices=get_open_code_reviews(spark, dbutils)
+    (code_choices, df) = get_open_code_reviews(spark, dbutils)
     dbutils.widgets.multiselect(name="01_code_name", defaultValue=code_choices[0], choices=code_choices)
     dbutils.widgets.text(name="02_reason", defaultValue="")
+    return df
 
 def get_widget_values(dbutils):
     widget_names = ["action", "code_name", "reason"]
