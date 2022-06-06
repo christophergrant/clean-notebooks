@@ -22,8 +22,11 @@ def validate_widget_values(d, dbutils, spark):
 def enrich_widget_values(d, spark):
     table_name = d["data_metastore_name"]
     details = spark.sql(f"DESCRIBE DETAIL {table_name}").collect()[0].asDict()
+    ddl = spark.table(table_name).schema.simpleString()
+    clean_ddl = re.sub(r">$", "", ddl).lstrip("struct<").replace(",", ", ")
     d["location"] = details["location"]
     d["format"] = details["format"]
+    d["schema"] = clean_ddl
     return d
 
 
