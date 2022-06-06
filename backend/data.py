@@ -20,7 +20,8 @@ def validate_widget_values(d, dbutils, spark):
     return d
 
 def enrich_widget_values(d, spark):
-    details = spark.sql("DESCRIBE DETAIL snap.test2").collect()[0].asDict()
+    table_name = d["data_metastore_name"]
+    details = spark.sql(f"DESCRIBE DETAIL {table_name}").collect()[0].asDict()
     d["location"] = details["location"]
     d["format"] = details["format"]
     return d
