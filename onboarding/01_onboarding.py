@@ -14,4 +14,17 @@ for table in control_tables:
 
 # COMMAND ----------
 
+# DBTITLE 1,For v1.1
+from delta.tables import DeltaTable
+
+code_table_columns = DeltaTable.forName(spark, "control.code").toDF().columns
+if 'default_parameters' not in code_table_columns:
+    alter_sql = f"ALTER TABLE control.code ADD COLUMNS (default_parameters string)"
+    print(f"adding new column via DDL: {alter_sql}")
+    spark.sql(alter_sql)
+else:
+    print("control.code already has the default_parameters column")
+
+# COMMAND ----------
+
 
