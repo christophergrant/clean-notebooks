@@ -20,14 +20,18 @@ def get_widget_values(widget_names, dbutils) -> dict:
 
 def form_event_and_send_to_control(d, event_type, dbutils, spark):
     j = json.dumps(d)
+    hostname = ""
+    try:
+        hostname = dbutils.notebook.entry_point.getDbutils().notebook().getContext().tags().apply('browserHostName')
+    except Exception:
+        pass
     row = {"event_type": event_type,
            "uuid": str(uuid4()),
            "payload": j,
            "timestamp": datetime.now(),
            "user": dbutils.notebook.entry_point.getDbutils().notebook().getContext().tags().apply('user'),
            "notebook": dbutils.notebook.entry_point.getDbutils().notebook().getContext().notebookPath().get(),
-           "hostname": dbutils.notebook.entry_point.getDbutils().notebook().getContext().tags().apply(
-               'browserHostName'),
+           "hostname": hostname,
            "api_version": "1"
            }
     schema = DeltaTable.forName(spark, "control.events").toDF().schema
