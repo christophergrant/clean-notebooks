@@ -27,4 +27,10 @@ else:
 
 # COMMAND ----------
 
-
+runs_table_columns = DeltaTable.forName(spark, "control.runs").toDF().columns
+if 'error_trace' not in runs_table_columns:
+    alter_sql = f"ALTER TABLE control.runs ADD COLUMNS (error STRING, error_trace STRING)"
+    print(f"adding new column via DDL: {alter_sql}")
+    spark.sql(alter_sql)
+else:
+    print("control.runs already has the error_trace column")
