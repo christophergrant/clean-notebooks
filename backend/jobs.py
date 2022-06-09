@@ -1,20 +1,17 @@
 from backend import common
+from delta.tables import *
 import json
+from pyspark.sql.functions import col
 
-schedule_to_value = {
-    "ad-hoc": "ad-hoc",
-    "daily":  "0 0 6 * * ? *", # 6AM every day
-    "hourly": "0 0 8-17 ? * *",
-    "weekly": "0 0 6 ? * SUN" # 6AM every Sunday
-}
+schema = "control"
 
 def get_approved_codes(spark, dbutils):
     choices = []
     sql = f"""
       select c.id, c.name, c.notebook_hash, c.participant_name, c.description, 
              c.default_compute, c.submitted_timestamp, c.notebook_language
-        from control.approval_status a
-       inner join control.code c on c.id = a.code_id
+        from {schema}.approval_status a
+       inner join {schema}.code c on c.id = a.code_id
        where a.approval_status = "CODE_REQUEST_APPROVED"
        order by c.name asc
     """
@@ -31,6 +28,32 @@ def get_approved_codes(spark, dbutils):
         choices = [x.name for x in pending]
         return choices   
     
+def show_default_parameters(spark, dbutils, code_name):
+    rows = list()
+    if (code_name != ""):
+        code_table_columns = DeltaTable.forName(spark, "control.code").toDF().columns
+        if ("default_parameters" in code_table_columns):
+            df_code = DeltaTable.forName(spark, f"{schema}.code").toDF()
+            df_code = df_code.select(["default_parameters", "name"]).where(
+                (col("name") == code_name) & (col("default_parameters") != ""))
+            code_records = df_code.collect()
+            if (len(code_records) > 0):
+                param_string = code_records[0][0]
+                param_dict = json.loads(param_string)
+                rows.append(param_dict)
+                df_params = spark.createDataFrame(rows)
+                param_html = df_params.toPandas().to_html(index=False)
+                dbutils.displayHTML(f"""
+                    <table border=1>
+                        <tr>
+                            <th>Default Parameters for {code_name}</th>
+                        </tr>
+                        <tr>
+                            <td>{param_html}</td>
+                        </tr>
+                    </table>
+                """)
+
 
 # display_widgets
 def display_widgets(spark, dbutils):
@@ -44,10 +67,13 @@ def display_widgets(spark, dbutils):
     dbutils.widgets.text(name="02_parameters", defaultValue="{}")
     dbutils.widgets.dropdown(name="03_compute", defaultValue="Small",
                              choices=["2X-Small", "X-Small", "Small", "Medium", "Large", "X-Large", "2X-Large", "3X-Large", "4X-Large"])
-    # dbutils.widgets.dropdown(name="04_schedule", defaultValue="ad-hoc", choices=["ad-hoc"]) # , "hourly", "daily", "weekly"])
+    
+    code_name = dbutils.widgets.get("01_code_name")
+    show_default_parameters(spark, dbutils, code_name)
+                
 
 def get_widget_values(dbutils):
-    widget_names = ["job_name", "code_name", "parameters", "compute"] # removed schedule
+    widget_names = ["job_name", "code_name", "parameters", "compute"] 
     return common.get_widget_values(widget_names, dbutils)
 
 def validate_widget_values(d, dbutils, spark):
@@ -74,7 +100,7 @@ def validate_widget_values(d, dbutils, spark):
     return d
 
 def enrich_widget_values(d, spark):
-    d['schedule'] = "ad-hoc" # schedule_to_value[d['schedule']]
+    d['schedule'] = "ad-hoc"
     return d
 
 def form_event_and_send_to_control(d, dbutils, spark):
