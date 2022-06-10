@@ -1,9 +1,11 @@
+# Clean Room End User Guide
+
 ## Launch a Cluster On Your Workspace
 
 In order to run any of the Cleanroom Notebooks, you’ll need to launch a small cluster in your Databricks Workspace.  After launching the cluster, there will be a Libraries tab available in the cluster’s configuration.  The databricks-cli is required for a few of the Notebooks - you can install it on the cluster by going to the Libraries tab, clicking “Install new”, clicking on PyPI and typing in: `databricks-cli`. After the library is installed you’ll attach this cluster to the Cleanroom Notebooks discussed below.
 
 
-## Onboarding
+# Onboarding
 
 
 ### Pre-Work
@@ -110,3 +112,16 @@ This table contains one record for each job that has been submitted to the Clean
 
 ### control.runs
 This table contains the status of the jobs that have been submitted to the Cleanroom.  The process that populates it runs every few minutes to check on the status of jobs that are currently running in the Databricks Cleanroom or that have run in the past 30 days.  It will show when a given job completes and also show if it has errored out and provide an error message.There is a run_page_url field that has a URL to the job being run in the Cleanroom.  If you try to go to that URL you will be denied access, but if Databricks is helping you debug a job then with your permission they will access the Cleanroom and be able to see what happened with a given job.
+
+# Update #1 Release Notes
+- DATA submissions now communicate the schema to the other recipients
+- CODE submitted by the keeper is synced to the collaborator's cloud storage
+- CODE approvals submitted by the Collaborator are ignored. Only approvals submitted by the Keeper are accepted.
+- CODE submitted by a keeper was not able to be run by a collaborator and vice versa.
+- Default Parameters submitted with CODE were not communicated back to the notebook used to run the CODE. Now the default parameters are displayed in the notebook.
+- Error and error stack are new columns in `control.run` table
+- A utility notebook for the Clean Room will enable newly on-boarded collaborators to receive the keeper's submitted code files in cloud storage
+- Notebook templates were added to the git repo
+- User documentation is now in git (this document)
+
+
