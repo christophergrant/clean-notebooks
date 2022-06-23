@@ -25,7 +25,7 @@ def get_open_code_reviews(spark, dbutils):
              )
              or
              (
-               a.code_id is null
+               a.code_id is null and f.id is null
              )
        order by c.name asc    """
 
