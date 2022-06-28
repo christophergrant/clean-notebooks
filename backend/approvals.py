@@ -15,13 +15,19 @@ def get_open_code_reviews(spark, dbutils):
       )
       select c.id, c.name, c.notebook_hash, c.participant_name, c.description, 
              c.default_compute, c.submitted_timestamp, c.notebook_language
-        from control.approval_status a
-       inner join control.code c on c.id = a.code_id
-       left outer join events_in_flight f on f.id = a.code_id 
-       where a.approval_status = "CODE_REQUEST_PENDING_APPROVAL"
-         and (a.approval_timestamp > f.max_ts or f.max_ts is null)
-       order by c.submitted_timestamp asc
-    """
+        from control.code c
+        left outer join control.approval_status a on c.id = a.code_id
+        left outer join events_in_flight f on f.id = a.code_id 
+       where 
+             (
+               a.approval_status = "CODE_REQUEST_PENDING_APPROVAL"
+               and (a.approval_timestamp > f.max_ts or f.max_ts is null)
+             )
+             or
+             (
+               a.code_id is null and f.id is null
+             )
+       order by c.name asc    """
 
     df = spark.sql(sql)
     pending = df.collect()

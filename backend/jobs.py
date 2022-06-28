@@ -8,8 +8,7 @@ schema = "control"
 def get_approved_codes(spark, dbutils):
     choices = []
     sql = f"""
-      select c.id, c.name, c.notebook_hash, c.participant_name, c.description, 
-             c.default_compute, c.submitted_timestamp, c.notebook_language
+      select distinct c.name
         from {schema}.approval_status a
        inner join {schema}.code c on c.id = a.code_id
        where a.approval_status = "CODE_REQUEST_APPROVED"
